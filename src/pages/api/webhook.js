@@ -1,10 +1,9 @@
 import { buffer } from "micro";
 import * as admin from "firebase-admin";
-const serviceAccount = require("../../../permissions.json");
 
 const app = !admin.apps.length
   ? admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
+      credential: admin.credential.cert(process.env.FIREBASE_PERMISSIONS),
     })
   : admin.app();
 
@@ -19,9 +18,9 @@ const fullfillOrder = async (session) => {
     .collection("orders")
     .doc(session.id)
     .set({
-        amount: session.amount_total / 100,
-        images: JSON.parse(session.metadata.images),
-        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      amount: session.amount_total / 100,
+      images: JSON.parse(session.metadata.images),
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
     })
     .then(() =>
       console.log(`order with ref ${session.id} have been pushed in the DB`)
