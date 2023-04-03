@@ -3,7 +3,7 @@ import * as admin from "firebase-admin";
 
 const app = !admin.apps.length
   ? admin.initializeApp({
-      credential: admin.credential.cert(process.env.FIREBASE_PERMISSIONS),
+      credential: admin.credential.cert(process.env.FIREBASE_PERMISSION),
     })
   : admin.app();
 
